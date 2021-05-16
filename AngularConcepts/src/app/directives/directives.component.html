@@ -1,0 +1,49 @@
+<h2>Attribute Directie</h2>
+<!-- @Input('format') format; -->
+<!-- <input class="form-control" appInputFormat [format]="'uppercase'" type="text"> -->
+
+
+<input class="form-control" [appInputFormat] = "'uppercase'" type="text">
+<hr>
+<div appHighlighter>Style Me with basic directive</div>
+<hr>
+<div appBetterHighlighter [defaultColor]="'yellow'" [highlightColor]="'red'">Style Me with better directive</div>
+<hr>
+======================================================================================
+<h2>Structrul Directive</h2>
+<div class="col-xs-12">
+  <button
+    class="btn btn-primary"
+    (click)="onlyOdd = !onlyOdd">Toggle</button>
+  <br><br>
+  <ul class="list-group">
+    <div *ngIf="onlyOdd">
+      <li
+        class="list-group-item"
+        *ngFor="let odd of oddNumbers">
+        {{ odd }}
+      </li>
+    </div>
+    
+    <div *appUnless="onlyOdd">
+      <li
+        class="list-group-item"
+        [ngClass]="{odd: even % 2 !== 0}"
+        [ngStyle]="{backgroundColor: even % 2 !== 0 ? 'yellow' : 'transparent'}"
+        *ngFor="let even of evenNumbers">
+        {{ even }}
+      </li>
+    </div>
+  </ul>
+</div>
+
+======================================================================================
+
+<hr>
+<h2>ngSwitch</h2>
+<div [ngSwitch]="value">
+  <p *ngSwitchCase="5">Value is 5</p>
+  <p *ngSwitchCase="10">Value is 10</p>
+  <p *ngSwitchCase="100">Value is 100</p>
+  <p *ngSwitchDefault>Value is Default</p>
+</div>

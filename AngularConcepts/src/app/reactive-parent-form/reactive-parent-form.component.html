@@ -1,0 +1,14 @@
+<form [formGroup]="myFormFather" (ngSubmit)="onSubmit()">
+  Nickname: <input formControlName="nickName"><br>
+  Name: <input formControlName="name"><br>
+  <reactive-child-form
+          [ageForm]="myFormFather">
+  </reactive-child-form>
+  <button type="submit"
+          [disabled]="myFormFather.invalid">Save
+  </button>
+</form>
+
+<div>
+{{myFormFather.value | json}}
+</div>

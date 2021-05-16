@@ -1,0 +1,67 @@
+<form #form="ngForm" (ngSubmit)="submit(form)">
+  <div ngModelGroup="contact" #contact="ngModelGroup">
+    <div *ngIf="contact.touched && !contact.valid">..some error in contact group</div>
+    <div class="form-group" >
+      <!--Now if we use this id of input, as the value for the "for" attribute of the label, this improves the accessibility of our form. So when the user clicks on this label our input field here will automatically get focus.-->
+      <label for="firstname">First Name</label>
+      <input 
+        required 
+        minlength="3" 
+        maxlength="10" 
+        pattern="banana" 
+        ngModel 
+        #firstname="ngModel" 
+        name="firstname" 
+        id="firstname" 
+        type="text" 
+        class="form-control"
+        (change) = "log(firstname)">
+      <div 
+        class="alert alert-danger" 
+        *ngIf="firstname.touched && !firstname.valid">
+        <div *ngIf="firstname.errors.required">
+          First name is required
+        </div>
+        <div *ngIf="firstname.errors.minlength">
+          First name sholud be minimum {{firstname.errors.minlength.requiredLength}} characters
+        </div>
+        <div *ngIf="firstname.errors.pattern">
+          First name does not match the pattern</div>
+      </div>
+  
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <textarea ngModel name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
+  </div>
+  <div class="checkbox">
+    <label for="">
+      <input type="checkbox" ngModel name="isSubscribe"> Subscriing to mailing list
+    </label>
+  </div>
+  <div class="form-group">
+    <label for="concatMethod">contact Method</label>
+    <!--For multiple selection we can use multiple attribute-->
+      <select ngModel name="isSubscribe" id="concatMethod" class="form-control">
+        <option value=""></option>
+        <!--Each option as you can see here has a value attribute. This value attribute can only be a string in HTML([value]="method.id" -> id is string && [ngValue]="method" -> method is an object). So we cannot store an actual contact method object here. 
+        So in our template, instead of binding the value property we need to bind
+        ngValue, so ngValue is an attribute directive, that exposes the ngValue property. And you can bind this to a complex object, like the method, or contact method object.-->
+        <option 
+          *ngFor="let method of contactMethods" 
+          [ngValue]="method">{{method.name}}
+        </option>
+      </select>
+  </div>
+  <div *ngFor="let method of contactMethods" class="radio">
+    <label for="contactMethod">
+      <input ngModel type="radio" name="contactMethod" [value]="method.id">
+      {{method.name}}
+    </label>
+  </div>
+  <p>
+    {{form.value | json}}
+  </p>
+  <button [disabled]="!form.valid" class="btn btn-primary">Submit</button>
+</form>
